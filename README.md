@@ -1,56 +1,46 @@
-# WhatsOSINT
-View data of a WhatsApp number, including its status, photo, etc. 🕵🏽‍♂️
+# WhatsInfo
 
+WhatsInfo is a small command-line client for the third-party WhatsApp Data API on RapidAPI. It does not connect to WhatsApp directly. Use it only for numbers you are authorized to check, and review the provider's privacy policy and terms before submitting data.
 
-<img src="https://github.com/HusnainCS/WhatInfo/blob/main/img/Demo.png" title="WhatsInfo">
+## Setup
 
-# 🔑 API Key
-Get your API key.
+Get a RapidAPI key and host for the [WhatsApp Data API](https://rapidapi.com/airaudoeduardo/api/whatsapp-data1). Copy `.env.example` to `.env` and add your credentials:
 
-Name | Key |
-| ------------------- |-------------- |
-| [Whatsapp Data](https://rapidapi.com/airaudoeduardo/api/whatsapp-data1) |  🔑 (Necessary) |
-
-- Select the free plan.
-
-When you have your API key, you can add it to the **.env** file Replacing **"Your_Api_Key"** with your actual RapidAPI key and save the changes.
-
-<img src="https://github.com/HusnainCS/WhatsInfo/blob/main/img/WhatsappData.png" title="WhatsOSINT">
-<img src="https://github.com/HusnainCS/WhatsInfoblob/main/img/WhatsappData_%20API.png" title="WhatsInfo">
-
-> **The project is open to partners.**
-
-# SUPPORTED DISTRIBUTIONS
-|Distribution | Version Check | supported | status |
-----------|-------|------|-------|
-|Kali Linux| 2024.3| yes| working   |
-|Parrot Security OS| 6.0| yes | working   |
-|Windows| 11 | yes | working   |
-|BackBox| 8.1 | yes | working   |
-|Arch Linux| 2024.06.01 | yes | working   |
-
-# USAGE
+```sh
+cp .env.example .env
 ```
-git clone https://github.com/HusnainCS/WhatsInfo.git
-```
-```
-cd WhatsInfo
-```
-```
+
+Install dependencies and run:
+
+```sh
+python3 -m pip install -r requirements.txt
 python3 WhatsInfo.py
 ```
-# REQUIREMENTS
-```
-pip install -r requirements.txt
-```
-# SUPPORT
-Questions, bugs or suggestions to : huxnain.cs@gmail.com
 
-# COLLABORATORS
-- https://github.com/crazyitx3
-- crazyitx3@gmail.com
-# LICENSE
-- [x] WhatsInfo is licensed. 
-- [x] See [LICENSE](https://github.com/HusnainCS/WhatsInfo#MIT-1-ov-file) for more information. 
+The app validates and normalizes international numbers to E.164, asks for confirmation before sending a number to RapidAPI, and hides IP-like fields in the response by default. To display those fields, run:
 
-© 2025
+```sh
+python3 WhatsInfo.py --show-network-identifiers
+```
+
+You can optionally save a local JSON report with the normalized number, provider, timestamp, and API response:
+
+```sh
+python3 WhatsInfo.py --save-report reports/lookup.json
+```
+
+IP-like fields are redacted in saved reports by default as well. If you also pass `--show-network-identifiers`, those fields will be included in the report.
+
+The API key is read from the local `.env` file and must never be committed. If a key has already been pushed to a remote repository, revoke or rotate it in RapidAPI; adding `.env` to `.gitignore` does not remove it from Git history.
+
+## Tests
+
+```sh
+python3 -m unittest discover -s tests
+```
+
+## Support
+
+Questions, bugs, or suggestions: huxnain.cs@gmail.com
+
+See [LICENSE](LICENSE) for license information.
